@@ -4,6 +4,7 @@ namespace Plugin\Saas\Http\Controllers\Admin;
 
 use Exception;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -43,10 +44,10 @@ class DatabaseCredentialController extends Controller
 
         try {
             DB::beginTransaction();
-
+            $user = env('DB_USER', 'u768514428_');
             DatabaseCredential::create([
-                'db_name' => $request->db_name,
-                'db_user' => $request->db_user,
+                'db_name' => $user . $request->db_name,
+                'db_user' => $user . $request->db_user,
                 'db_password' => $request->db_password,
                 'is_active' => false
             ]);
@@ -90,10 +91,10 @@ class DatabaseCredentialController extends Controller
 
         try {
             DB::beginTransaction();
-
+            $user = env('DB_USER', 'u768514428_');
             $databaseCredential->update([
-                'db_name' => $request->db_name,
-                'db_user' => $request->db_user,
+                'db_name' => Str::startsWith($user, $request->db_name) ? $request->db_name : $user . $request->db_name,
+                'db_user' => Str::startsWith($user, $request->db_user) ? $request->db_user : $user . $request->db_user,
                 'db_password' => $request->db_password,
                 'is_active' => false
             ]);

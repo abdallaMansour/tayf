@@ -4,6 +4,7 @@ namespace Plugin\Saas\Repositories;
 
 use Carbon\Carbon;
 use App\Models\Tenant;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\TenantDatabaseMonitoringJob;
@@ -48,13 +49,21 @@ class TenantRepository
         ]);
 
         $tenant = Tenant::find($tenant_id);
+        $sub_domain_name = Str::ascii($subdomain) . '-' . strtoupper(uniqid());
+        $sub_domain_url = 'thismy.shop/' . $sub_domain_name;
         $tenant->domains()->create([
-            'domain' => 'thismy.shop/' . $subdomain . '-' . strtoupper(uniqid()),
-            'main_domain' =>  'thismy.shop/' . $subdomain . '-' . strtoupper(uniqid())
+            'domain' => $sub_domain_url,
+            'main_domain' =>  $sub_domain_url
             // 'domain' => $subdomain . '.' . getCurrentHostName(),
             // 'main_domain' => $subdomain . '.' . getCurrentHostName()
         ]);
         session()->put('tenant_id', $tenant->id);
+
+        // create folder in the main directory
+        $folder_name = $sub_domain_name;
+        $folder_path = base_path($folder_name);
+        mkdir($folder_path, 0777, true);
+
         return $tenant;
     }
     /**
