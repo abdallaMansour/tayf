@@ -1,0 +1,17 @@
+.page-title{
+background-color:#3164f5;
+}
+.page-title .title{
+font-family:Cairo,sans-serif;
+font-style:normal;
+color:#3164f5;
+}
+.page-title .nav li, .page-title .nav li a{
+color:#3164f5!important;
+}
+.page-title .nav li.active{
+color:#e68f8f!important;
+}
+.page-title .nav li:after{
+background-color:#3164f5!important;
+}

@@ -1,0 +1,18 @@
+.nav-menu li a{
+color:#f8cb25!important;
+}
+.nav-menu li:hover > a{
+color:#f8cb25!important;
+}
+.active-menu-item{
+color:#ffffff!important;
+}
+.nav-menu li .sub-menu li a {
+color:#ffffff!important;
+}
+.nav-menu li .sub-menu li:hover > a {
+color:#ffffff!important;
+}
+.active-sub-menu-item{
+color:#ffffff!important;
+}

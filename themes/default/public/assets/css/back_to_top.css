@@ -1,0 +1,8 @@
+.custom-style{
+background-color:#f8cb25!important;
+color:#3164f5!important;
+}
+@media (max-width:575px){
+.custom-style{
+display:none !important;
+}}
