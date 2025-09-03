@@ -60,8 +60,8 @@ class TenantRepository
         session()->put('tenant_id', $tenant->id);
 
         // create folder in the main directory
-        $folder_name = $sub_domain_name;
-        $folder_path = base_path($folder_name);
+        $folder_name = Str::ascii($subdomain);
+        $folder_path = base_path('stores_files/' . $folder_name);
         mkdir($folder_path, 0777, true);
 
         return $tenant;
