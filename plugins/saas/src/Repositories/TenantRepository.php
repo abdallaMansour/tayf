@@ -49,8 +49,10 @@ class TenantRepository
 
         $tenant = Tenant::find($tenant_id);
         $tenant->domains()->create([
-            'domain' => $subdomain . '.' . getCurrentHostName(),
-            'main_domain' => $subdomain . '.' . getCurrentHostName()
+            'domain' => 'thismy.shop/' . $subdomain . '-' . strtoupper(uniqid()),
+            'main_domain' =>  'thismy.shop/' . $subdomain . '-' . strtoupper(uniqid())
+            // 'domain' => $subdomain . '.' . getCurrentHostName(),
+            // 'main_domain' => $subdomain . '.' . getCurrentHostName()
         ]);
         session()->put('tenant_id', $tenant->id);
         return $tenant;
