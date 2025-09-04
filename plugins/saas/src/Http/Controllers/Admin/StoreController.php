@@ -218,7 +218,8 @@ class StoreController extends Controller
             ];
             Log::channel('tenant_database')->info(json_encode($error));
 
-            toastNotification('error', translate('Tenant database creation unsuccessful!'));
+            // toastNotification('error', translate('Tenant database creation unsuccessful!'));
+            toastNotification('error', $ex->getMessage());
             return back();
         }
     }

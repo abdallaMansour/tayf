@@ -5,13 +5,14 @@ namespace App\Jobs;
 use App\Models\Tenant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Plugin\Saas\Models\SaasAccount;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Plugin\Saas\Models\DatabaseCredential;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Support\Facades\Log;
-use Plugin\Saas\Models\SaasAccount;
 use Plugin\Saas\Repositories\TenantRepository;
 
 class TenantDatabaseMonitoringJob implements ShouldQueue
@@ -39,14 +40,29 @@ class TenantDatabaseMonitoringJob implements ShouldQueue
      * @return void
      */
     public function handle()
-    {
+    { 
+        // Get database credential
+        $databaseCredential = DatabaseCredential::where('is_active', false)->first();
+        if (!$databaseCredential) {
+            Log::channel('tenant_database')->info('There is no active database credential found');
+        }
         $saas_account = SaasAccount::find($this->saas_account_id);
-        $tenant = Tenant::find($saas_account->tenant_id);
-        $this->database = $tenant->tenancy_db_name;
+        // $tenant = Tenant::find($saas_account->tenant_id);
+        // $this->database = $tenant->tenancy_db_name;
         $tenantConfig = config('database.connections.tenant');
-        $tenantConfig['database'] = $this->database;
+        // $tenantConfig['database'] = $this->database;
+        $tenantConfig['database'] = $databaseCredential->db_name;
+        $tenantConfig['username'] = $databaseCredential->db_user;
+        $tenantConfig['password'] = $databaseCredential->db_password;
         $tenantConfig['log'] = true;
-        $tenantConnectionName = 'tenant_' . $this->database;
+        // Log::channel('tenant_database')->info('just log', [
+        //     'databaseCredential' => $databaseCredential,
+        //     'tenantConfig' => $tenantConfig,
+        //     'is_for_update' => $this->is_for_update
+        // ]);
+        // Log::channel('tenant_database')->info('test_log');
+
+        $tenantConnectionName = 'tenant_' . $databaseCredential->db_name;
         config(["database.connections.$tenantConnectionName" => $tenantConfig]);
         session()->put('tenant_connection_name', $tenantConnectionName);
         $query = DB::connection($tenantConnectionName);
@@ -64,6 +80,10 @@ class TenantDatabaseMonitoringJob implements ShouldQueue
                 $saas_account->status = 1;
 
                 $saas_account->update();
+
+
+                $databaseCredential->is_active = true;
+                $databaseCredential->save();
             } else {
                 $this->repo->updateAllTenantPluginData($query, $this->package_id);
                 $this->repo->updateAllTenantPaymentMethodData($query, $this->package_id);

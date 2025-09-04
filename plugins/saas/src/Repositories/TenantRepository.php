@@ -368,7 +368,7 @@ class TenantRepository
         $databaseCredential = DatabaseCredential::where('is_active', false)->first();
         
         if (!$databaseCredential) {
-            return;
+            throw new \Exception('There is no active database credential found');
         }
         
         if ((systemHasPermissionToCreateDatabase() && $is_for_update == 0) || ($is_for_update == 0 && $is_from_admin)) {
@@ -395,9 +395,6 @@ class TenantRepository
             $sqlFilePath = storage_path('app/tenant.sql');
             $sqlContent = file_get_contents($sqlFilePath);
             $query->unprepared($sqlContent);
-            
-            $databaseCredential->is_active = true;
-            $databaseCredential->save();
 
             $job = new TenantDatabaseMonitoringJob($saas_account_id, $package_id, $is_for_update);
             dispatch($job);
