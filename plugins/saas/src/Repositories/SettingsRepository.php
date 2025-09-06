@@ -11,9 +11,9 @@ class SettingsRepository
      * Will return saas setting
      * 
      * 
-     * @param String $key
+     * @param string $key
      * @param mixed $default_value
-     * @return String
+     * @return string
      */
     public static function getSaasSetting($key, $fallback = NULL)
     {

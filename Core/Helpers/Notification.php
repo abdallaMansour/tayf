@@ -7,9 +7,9 @@ if (!function_exists('toastNotification')) {
     /**
      * Set toast message
      *
-     * @param String $type
-     * @param String $message
-     * @param String $header
+     * @param string $type
+     * @param string $message
+     * @param string $header
      * @return void
      */
     function toastNotification($type, $message, $header = null)

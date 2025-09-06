@@ -44,10 +44,10 @@ class DatabaseCredentialController extends Controller
 
         try {
             DB::beginTransaction();
-            $user = env('DB_USER', 'u768514428_');
+            $database_prefix = \Plugin\Saas\Repositories\SettingsRepository::getSaasSetting('database_prefix');
             DatabaseCredential::create([
-                'db_name' => $user . $request->db_name,
-                'db_user' => $user . $request->db_user,
+                'db_name' => $database_prefix . $request->db_name,
+                'db_user' => $database_prefix . $request->db_user,
                 'db_password' => $request->db_password,
                 'is_active' => false
             ]);
@@ -91,10 +91,10 @@ class DatabaseCredentialController extends Controller
 
         try {
             DB::beginTransaction();
-            $user = env('DB_USER', 'u768514428_');
+            $database_prefix = \Plugin\Saas\Repositories\SettingsRepository::getSaasSetting('database_prefix');
             $databaseCredential->update([
-                'db_name' => Str::startsWith($user, $request->db_name) ? $request->db_name : $user . $request->db_name,
-                'db_user' => Str::startsWith($user, $request->db_user) ? $request->db_user : $user . $request->db_user,
+                'db_name' => Str::startsWith($database_prefix, $request->db_name) ? $request->db_name : $database_prefix . $request->db_name,
+                'db_user' => Str::startsWith($database_prefix, $request->db_user) ? $request->db_user : $database_prefix . $request->db_user,
                 'db_password' => $request->db_password,
                 'is_active' => false
             ]);
