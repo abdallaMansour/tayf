@@ -9,21 +9,26 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # ✅ لو الرابط admin أو أي حاجة بعده → يروح Laravel عادي
+    RewriteCond %{REQUEST_URI} ^admin(/.*)?$ [NC]
+    RewriteRule ^ index.php [L]
+
+    # ✅ أي كلمة غير admin → يروح على stores_files/<الكلمة>
+    RewriteCond %{REQUEST_URI} ^([^/]+) [NC]
+    RewriteCond %1 !^admin$ [NC]
+    RewriteRule ^ %{DOCUMENT_ROOT}/stores_files/%1/ [L]
+
+    # باقي الطلبات → Laravel
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-    
-    RewriteCond %{HTTP_HOST} ^([^.]+)\.tayf\.ae [NC]
-    RewriteRule ^(.*)$ /%1/$1 [L]
-
 </IfModule>
