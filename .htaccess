@@ -14,16 +14,19 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # ===============================
+    # جزء admin (اللوحة الرئيسية)
+    # ===============================
+    RewriteCond %{REQUEST_URI} ^/admin [NC]
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
-    
-    RewriteCond %{HTTP_HOST} ^([^.]+)\.tayf\.ae [NC]
-    RewriteRule ^(.*)$ /%1/$1 [L]
-
+    # ===============================
+    # باقي الطلبات → stores_files
+    # ===============================
+    RewriteCond %{REQUEST_URI} !^/admin [NC]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ stores_files/index.php [L]
 </IfModule>
