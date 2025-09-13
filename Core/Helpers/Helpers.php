@@ -137,12 +137,14 @@ if (!function_exists('isTenant')) {
      */
     function isTenant()
     {
+        // return '2d1d1af9-1f28-4298-aa20-4a20d16e40ac';
         $request = app('request');
         $current_domain = clean_domain($request->getHost());
         if (!in_array($current_domain, config('tenancy.central_domains'))) {
             $tenant_id = tenancy()->central(function () {
                 $request = app('request');
-                $current_domain = clean_domain($request->getHost());
+                // $current_domain = clean_domain($request->getHost());
+                $current_domain = clean_domain($request->getHost() . '/'. $request->path());
                 $domain = DB::table('domains')->where('domain', '=', $current_domain)->first();
                 if ($domain != null) {
                     return $domain->tenant_id;

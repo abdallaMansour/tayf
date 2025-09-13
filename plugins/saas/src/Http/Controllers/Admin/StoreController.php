@@ -88,7 +88,8 @@ class StoreController extends Controller
             Log::channel('tenant_database')->info(json_encode($error));
             DB::rollBack();
             return response()->json([
-                'success' => false
+                'success' => false,
+                'message' => $ex->getMessage()
             ], 500);
         }
     }

@@ -56,6 +56,8 @@ if (!function_exists('getActiveTheme')) {
                 return Themes::on('tenant')->get();
             });
         }
+        // $request = app('request');
+        // dd(isTenant(), clean_domain($request->getHost() . '/'. $request->path()));
 
         if (!isTenant()) {
             $themes = Cache::remember("active-themes", 100 * 60, function () {
