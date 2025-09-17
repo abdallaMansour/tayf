@@ -126,6 +126,19 @@ if (!function_exists('errorMessage')) {
     }
 }
 
+if (!function_exists('getFirstSegment')) {
+    /**
+     * get the first segment of the path
+     *
+     * @return string
+     */
+    function getFirstSegment() {
+        $path = request()->path();
+        $segments = explode('/', trim($path, '/'));
+        return !empty($segments) ? $segments[0] : null;
+    }
+}
+
 if (!function_exists('isTenant')) {
     /**
      * will verify if the current user is a tenant user or not
@@ -139,18 +152,22 @@ if (!function_exists('isTenant')) {
     {
         // return '2d1d1af9-1f28-4298-aa20-4a20d16e40ac';
         $request = app('request');
-        $current_domain = clean_domain($request->getHost());
+
+        $firstSegment = getFirstSegment();
+        
+        $current_domain = clean_domain($request->getHost() . env('THEME_PREFIX') . $firstSegment);
         if (!in_array($current_domain, config('tenancy.central_domains'))) {
-            $tenant_id = tenancy()->central(function () {
+            $tenant_id = tenancy()->central(function () use ($firstSegment) {
                 $request = app('request');
                 // $current_domain = clean_domain($request->getHost());
-                $current_domain = clean_domain($request->getHost() . '/'. $request->path());
+                $current_domain = clean_domain($request->getHost() . env('THEME_PREFIX') . $firstSegment);
                 $domain = DB::table('domains')->where('domain', '=', $current_domain)->first();
                 if ($domain != null) {
                     return $domain->tenant_id;
                 }
                 return false;
             });
+            // dd($tenant_id);
             return $tenant_id;
         }
 
@@ -1081,6 +1098,8 @@ if (!function_exists('getGeneralSettingsDetails')) {
                 $data[$media_settings_value[$i]->name] = $media_settings_value[$i]->value;
             }
         }
+
+        // dd($data);
 
         return $data;
     }

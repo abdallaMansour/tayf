@@ -33,7 +33,8 @@ class InitializeTenancyByDomainCustomized extends IdentificationMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $current_domain = clean_domain($request->getHost());
+        $current_domain = clean_domain($request->getHost() . env('THEME_PREFIX') . getFirstSegment());
+
         return $this->initializeTenancy(
             $request,
             $next,

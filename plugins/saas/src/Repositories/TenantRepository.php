@@ -49,7 +49,8 @@ class TenantRepository
         ]);
 
         $tenant = Tenant::find($tenant_id);
-        $sub_domain_name = Str::ascii($subdomain) . '-' . strtoupper(uniqid());
+        // $sub_domain_name = Str::ascii($subdomain) . '-' . strtoupper(uniqid());
+        $sub_domain_name = Str::ascii($subdomain);
         $sub_domain_url = 'thismy.shop/' . $sub_domain_name;
         $tenant->domains()->create([
             'domain' => $sub_domain_url,

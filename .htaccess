@@ -18,16 +18,7 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # ✅ لو الرابط admin أو أي حاجة بعده → يروح Laravel عادي
-    RewriteCond %{REQUEST_URI} ^admin(/.*)?$ [NC]
-    RewriteRule ^ index.php [L]
-
-    # ✅ أي كلمة غير admin → يروح على stores_files/<الكلمة>
-    RewriteCond %{REQUEST_URI} ^([^/]+) [NC]
-    RewriteCond %1 !^admin$ [NC]
-    RewriteRule ^ %{DOCUMENT_ROOT}/stores_files/%1/ [L]
-
-    # باقي الطلبات → Laravel
+    # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
