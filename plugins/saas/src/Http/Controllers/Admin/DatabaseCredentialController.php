@@ -45,9 +45,16 @@ class DatabaseCredentialController extends Controller
         try {
             DB::beginTransaction();
             $database_prefix = \Plugin\Saas\Repositories\SettingsRepository::getSaasSetting('database_prefix');
+            if (!empty($database_prefix)) {
+                $db_name = $database_prefix . '_' . $request->db_name;
+                $db_user = $database_prefix . '_' . $request->db_user;
+            } else {
+                $db_name = $request->db_name;
+                $db_user = $request->db_user;
+            }
             DatabaseCredential::create([
-                'db_name' => $database_prefix . $request->db_name,
-                'db_user' => $database_prefix . $request->db_user,
+                'db_name' => $db_name,
+                'db_user' => $db_user,
                 'db_password' => $request->db_password,
                 'is_active' => false
             ]);
@@ -91,19 +98,19 @@ class DatabaseCredentialController extends Controller
 
         try {
             DB::beginTransaction();
-            $database_prefix = \Plugin\Saas\Repositories\SettingsRepository::getSaasSetting('database_prefix');
+            // $database_prefix = \Plugin\Saas\Repositories\SettingsRepository::getSaasSetting('database_prefix');
 
-            if ($database_prefix) {
-                $db_name = Str::startsWith($database_prefix, $request->db_name) ? $request->db_name : $database_prefix . '_' . $request->db_name;
-                $db_user = Str::startsWith($database_prefix, $request->db_user) ? $request->db_user : $database_prefix . '_' . $request->db_user;
-            } else {
-                $db_name = $request->db_name;
-                $db_user = $request->db_user;
-            }
+            // if ($database_prefix) {
+            //     $db_name = Str::startsWith($database_prefix, $request->db_name) ? $request->db_name : $database_prefix . '_' . $request->db_name;
+            //     $db_user = Str::startsWith($database_prefix, $request->db_user) ? $request->db_user : $database_prefix . '_' . $request->db_user;
+            // } else {
+            //     $db_name = $request->db_name;
+            //     $db_user = $request->db_user;
+            // }
 
             $databaseCredential->update([
-                'db_name' => $db_name,
-                'db_user' => $db_user,
+                'db_name' => $request->db_name,
+                'db_user' => $request->db_user,
                 'db_password' => $request->db_password,
                 'is_active' => false
             ]);

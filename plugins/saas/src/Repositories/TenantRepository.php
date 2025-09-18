@@ -63,7 +63,9 @@ class TenantRepository
         // create folder in the main directory
         $folder_name = Str::ascii($subdomain);
         $folder_path = base_path('stores_files/' . $folder_name);
-        mkdir($folder_path, 0777, true);
+        if (!file_exists($folder_path)) {
+            mkdir($folder_path, 0777, true);
+        }
 
         return $tenant;
     }
