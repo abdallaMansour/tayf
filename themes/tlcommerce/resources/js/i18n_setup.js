@@ -1,6 +1,7 @@
 
 import { createI18n } from 'vue-i18n'
 import axios from "axios";
+import { BASE_URL } from './config.js';
 
 const i18n = createI18n({
     locale: localStorage.getItem("locale") || "en",
@@ -25,7 +26,7 @@ export async function loadLanguageAsync(lang) {
             return Promise.resolve(setI18nLanguage(lang));
         }
     }
-    return axios.get(`/api/v1/locale/${lang}`).then(response => {
+    return axios.get(`${BASE_URL}/btats/api/v1/locale/${lang}`).then(response => {
         let messages = response.data.data;
         let language = response.data.language;
         var html = document.querySelector("html");

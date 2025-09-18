@@ -222,6 +222,7 @@ import {
   CModalTitle,
   CModalBody,
 } from "@coreui/vue";
+import { BASE_URL } from '../config.js';
 
 export default {
   name: "MainLayout",
@@ -273,7 +274,7 @@ export default {
         "Accept-Language": localStorage.getItem("locale") || "en",
       };
       axios
-        .get("/api/v1/ecommerce-core/site-properties", {
+        .get(`${BASE_URL}/btats/api/v1/ecommerce-core/site-properties`, {
           headers: headers,
         })
         .then((response) => {
@@ -297,7 +298,7 @@ export default {
       };
 
       axios
-        .get("/api/v1/ecommerce-core/mega-categories", {
+        .get(`${BASE_URL}/btats/api/v1/ecommerce-core/mega-categories`, {
           headers: headers,
         })
         .then((response) => {
@@ -423,7 +424,7 @@ export default {
         "Accept-Language": localStorage.getItem("locale") || "en",
       };
       axios
-        .get("/api/theme/tlcommerce/v1/get-all-menus-for-ecommerce-home", {
+        .get(`${BASE_URL}/btats/api/theme/tlcommerce/v1/get-all-menus-for-ecommerce-home`, {
           headers: headers,
         })
         .then((response) => {
@@ -459,7 +460,7 @@ export default {
       };
       axios
 
-        .get("/api/theme/tlcommerce/v1/get-footer-widgets", {
+        .get(`${BASE_URL}/btats/api/theme/tlcommerce/v1/get-footer-widgets`, {
           headers: headers,
         })
         .then((response) => {
@@ -533,7 +534,7 @@ export default {
       };
 
       axios
-        .get("/api/theme/tlcommerce/v1/get-theme-style", {
+        .get(`${BASE_URL}/btats/api/theme/tlcommerce/v1/get-theme-style`, {
           headers: headers,
         })
         .then((response) => {

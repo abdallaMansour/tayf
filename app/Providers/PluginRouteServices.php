@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-
+use Illuminate\Support\Facades\Request as FacadesRequest;
 class PluginRouteServices extends ServiceProvider
 {
     /**
@@ -28,13 +28,15 @@ class PluginRouteServices extends ServiceProvider
                 $plugins = getActivePlugins(true);
                 $middlewares = routeApplicableMiddlewares();
 
+                $prefix = FacadesRequest::segment(1);
+
                 foreach ($plugins as $plugin) {
                     if (file_exists(base_path('plugins/' . $plugin->location . '/routes/api.php'))) {
-                        Route::middleware($middlewares['api'])->prefix('api')->group(base_path('plugins/' . $plugin->location . '/routes/api.php'));
+                        Route::middleware($middlewares['api'])->prefix($prefix.'/api')->group(base_path('plugins/' . $plugin->location . '/routes/api.php'));
                     }
 
                     if (file_exists(base_path('plugins/' . $plugin->location . '/routes/web.php'))) {
-                        Route::middleware($middlewares['web'])->group(base_path('plugins/' . $plugin->location . '/routes/web.php'));
+                        Route::middleware($middlewares['web'])->prefix($prefix)->group(base_path('plugins/' . $plugin->location . '/routes/web.php'));
                     }
 
                     if (file_exists(base_path('plugins/' . $plugin->location . '/routes/user.php'))) {

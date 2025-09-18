@@ -73,6 +73,7 @@
 <script>
 import PageHeader from "@/components/pageheader/PageHeader.vue";
 import axios from "axios";
+import { BASE_URL } from '../../config.js';
 export default {
   name: "Categories",
   components: {
@@ -109,7 +110,7 @@ export default {
       };
 
       axios
-        .get("/api/v1/ecommerce-core/mega-categories", {
+        .get(`${BASE_URL}/btats/api/v1/ecommerce-core/mega-categories`, {
           headers: headers,
         })
         .then((response) => {

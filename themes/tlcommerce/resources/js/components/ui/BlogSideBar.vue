@@ -14,6 +14,7 @@
 </template>
 <script>
 const axios = require("axios").default;
+import { BASE_URL } from '../../config.js';
 import VRuntimeTemplate from "vue3-runtime-template";
 import WidgetSearch from "../widget/WidgetSearch.vue";
 import featured_blog_widget from "../widget/featured_blog_widget.vue";
@@ -116,7 +117,7 @@ export default {
             };
 
             axios
-                .get("/api/theme/tlcommerce/v1/get-theme-style", {
+                .get(`${BASE_URL}/btats/api/theme/tlcommerce/v1/get-theme-style`, {
                     headers: headers,
                 })
                 .then((response) => {

@@ -25,7 +25,7 @@ export async function loadLanguageAsync(lang) {
             return Promise.resolve(setI18nLanguage(lang));
         }
     }
-    return axios.get(`/api/v1/locale/${lang}`).then(response => {
+    return axios.get(`/EVORQ/tayf/btats/api/v1/locale/${lang}`).then(response => {
         let messages = response.data.data;
         let language = response.data.language;
         var html = document.querySelector("html");

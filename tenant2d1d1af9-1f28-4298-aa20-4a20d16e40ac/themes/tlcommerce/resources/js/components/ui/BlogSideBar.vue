@@ -116,7 +116,7 @@ export default {
             };
 
             axios
-                .get("/api/theme/tlcommerce/v1/get-theme-style", {
+                .get("/EVORQ/tayf/btats/api/theme/tlcommerce/v1/get-theme-style", {
                     headers: headers,
                 })
                 .then((response) => {

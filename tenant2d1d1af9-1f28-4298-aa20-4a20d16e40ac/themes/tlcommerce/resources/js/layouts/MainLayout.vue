@@ -273,7 +273,7 @@ export default {
         "Accept-Language": localStorage.getItem("locale") || "en",
       };
       axios
-        .get("/api/v1/ecommerce-core/site-properties", {
+        .get("/EVORQ/tayf/btats/api/v1/ecommerce-core/site-properties", {
           headers: headers,
         })
         .then((response) => {
@@ -297,7 +297,7 @@ export default {
       };
 
       axios
-        .get("/api/v1/ecommerce-core/mega-categories", {
+        .get("/EVORQ/tayf/btats/api/v1/ecommerce-core/mega-categories", {
           headers: headers,
         })
         .then((response) => {
@@ -423,7 +423,7 @@ export default {
         "Accept-Language": localStorage.getItem("locale") || "en",
       };
       axios
-        .get("/api/theme/tlcommerce/v1/get-all-menus-for-ecommerce-home", {
+        .get("/EVORQ/tayf/btats/api/theme/tlcommerce/v1/get-all-menus-for-ecommerce-home", {
           headers: headers,
         })
         .then((response) => {
@@ -459,7 +459,7 @@ export default {
       };
       axios
 
-        .get("/api/theme/tlcommerce/v1/get-footer-widgets", {
+        .get("/EVORQ/tayf/btats/api/theme/tlcommerce/v1/get-footer-widgets", {
           headers: headers,
         })
         .then((response) => {
@@ -533,7 +533,7 @@ export default {
       };
 
       axios
-        .get("/api/theme/tlcommerce/v1/get-theme-style", {
+        .get("/EVORQ/tayf/btats/api/theme/tlcommerce/v1/get-theme-style", {
           headers: headers,
         })
         .then((response) => {

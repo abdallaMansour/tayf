@@ -25,7 +25,7 @@ export default {
   },
   async created() {
     this.themeStyle = await axios.get(
-      "/api/theme/tlcommerce/v1/get-theme-color"
+      "/EVORQ/tayf/btats/api/theme/tlcommerce/v1/get-theme-color"
     );
     let themeColor = this.themeStyle.data.themeColor.theme_primary_color;
 

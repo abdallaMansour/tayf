@@ -109,7 +109,7 @@ export default {
       };
 
       axios
-        .get("/api/v1/ecommerce-core/mega-categories", {
+        .get("/EVORQ/tayf/btats/api/v1/ecommerce-core/mega-categories", {
           headers: headers,
         })
         .then((response) => {
