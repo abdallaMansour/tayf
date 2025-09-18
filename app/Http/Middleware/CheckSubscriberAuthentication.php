@@ -21,7 +21,8 @@ class CheckSubscriberAuthentication
             $store_status = tenancy()->central(function () {
                 $now = now();
                 $request = app('request');
-                $current_domain = clean_domain($request->getHost());
+                $current_domain = clean_domain($request->getHost() . env('THEME_PREFIX') . getFirstSegment());
+                // dd($current_domain);
                 $domain = DB::table('domains')->where('domain', '=', $current_domain)->first();
                 $is_active = DB::table('tl_saas_accounts')
                     ->where('tenant_id', '=', $domain->tenant_id)

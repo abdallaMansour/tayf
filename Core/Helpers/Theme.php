@@ -57,7 +57,7 @@ if (!function_exists('getActiveTheme')) {
             });
         }
         // $request = app('request');
-        // dd(isTenant(), clean_domain($request->getHost() . '/'. $request->path()));
+        // dd(isTenant(), clean_domain($request->getHost() . '/EVORQ/tayf/'. $request->path()));
 
         if (!isTenant()) {
             $themes = Cache::remember("active-themes", 100 * 60, function () {

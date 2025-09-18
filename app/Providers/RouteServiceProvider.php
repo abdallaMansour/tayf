@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
+
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -38,7 +40,8 @@ class RouteServiceProvider extends ServiceProvider
                 $active_theme = getActiveTheme();
 
                 if (file_exists(base_path('themes/' . $active_theme->location . '/routes/api.php'))) {
-                    Route::middleware($middlewares['api'])->prefix('api')->group(base_path('themes/' . $active_theme->location . '/routes/api.php'));
+                    $prefix = FacadesRequest::segment(1);
+                    Route::middleware($middlewares['api'])->prefix($prefix.'/api')->group(base_path('themes/' . $active_theme->location . '/routes/api.php'));
                 }
 
                 if (file_exists(base_path('themes/'  . $active_theme->location . '/routes/web.php'))) {
